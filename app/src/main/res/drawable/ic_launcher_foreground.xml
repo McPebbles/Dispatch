@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The mark: a paper dart over a single column rule — a dispatch being sent, and
+  the line of type it came from.
+
+  Drawn at 108dp with everything inside the 66dp safe circle (centre 54,54,
+  radius 33), because a launcher may mask this to a circle, a squircle or a
+  rounded square and anything outside that circle is not guaranteed to survive.
+
+  Deliberately generic: no publisher's wordmark, no masthead, nothing that
+  belongs to a news organisation.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Upper wing -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M32,46 L76,28 L54,50 Z" />
+
+    <!-- Lower wing, slightly dimmed so the fold reads as a fold -->
+    <path
+        android:fillColor="#FFD7DEEA"
+        android:pathData="M54,50 L76,28 L60,66 Z" />
+
+    <!-- The column rule -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M34,74 h40 v6 h-40 z" />
+</vector>

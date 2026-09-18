@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="refresh_new">
+        <item quantity="one">%d new story</item>
+        <item quantity="other">%d new stories</item>
+    </plurals>
+    <plurals name="import_added">
+        <item quantity="one">Imported %d feed</item>
+        <item quantity="other">Imported %d feeds</item>
+    </plurals>
+    <plurals name="stream_feed_count">
+        <item quantity="one">%d feed</item>
+        <item quantity="other">%d feeds</item>
+    </plurals>
+    <plurals name="add_feed_found">
+        <item quantity="one">Found %1$s — %2$d story</item>
+        <item quantity="other">Found %1$s — %2$d stories</item>
+    </plurals>
+    <plurals name="category_feed_count">
+        <item quantity="one">%d feed</item>
+        <item quantity="other">%d feeds</item>
+    </plurals>
+    <plurals name="stream_category_count">
+        <item quantity="one">%d category</item>
+        <item quantity="other">%d categories</item>
+    </plurals>
+</resources>

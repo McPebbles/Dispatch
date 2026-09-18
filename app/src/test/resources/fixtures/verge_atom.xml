@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><feed
+	xmlns="http://www.w3.org/2005/Atom"
+	xmlns:thr="http://purl.org/syndication/thread/1.0"
+	xml:lang="en-US"
+	>
+	<title type="text">The Verge</title>
+	<subtitle type="text">The Verge is about technology and how it makes us feel.</subtitle>
+	<updated>2026-09-17T03:00:00-04:00</updated>
+	<link rel="alternate" type="text/html" href="https://www.theverge.com/" />
+	<link rel="self" type="application/atom+xml" href="https://www.theverge.com/rss/index.xml" />
+	<id>https://www.theverge.com/feed/atom/</id>
+	<entry>
+		<author>
+			<name>Andrew Webster</name>
+		</author>
+		<title type="html"><![CDATA[The streamers are fighting over Halloween]]></title>
+		<link rel="alternate" type="text/html" href="https://www.theverge.com/entertainment/996314/tiff-2026-halloween-streaming" />
+		<id>https://www.theverge.com/?p=996314</id>
+		<updated>2026-09-16T14:41:41-04:00</updated>
+		<published>2026-09-16T23:00:00-04:00</published>
+		<category scheme="https://www.theverge.com" term="Entertainment" />
+		<summary type="html"><![CDATA[The Toronto International Film Festival is a place to go to see the future of film, but this year it also provided a glimpse at what is coming very soon in the realm of streaming.]]></summary>
+		<content type="html"><![CDATA[
+<figure>
+<img alt="A still from the film Crystal Lake." data-caption="" src="https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/NUP_211117.jpg?quality=90&#038;strip=all" />
+	<figcaption>
+	</figcaption>
+</figure>
+<p class="wp-block-paragraph">The Toronto International Film Festival is a place to go <a href="https://www.theverge.com/entertainment/994834/tiff-2026-movie-reviews">to see the future of film</a>, but this year it also provided a glimpse of streaming.</p>
+]]></content>
+	</entry>
+</feed>

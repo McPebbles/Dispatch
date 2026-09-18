@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Minutes. Fifteen is WorkManager's floor for periodic work — anything
+      shorter is silently rounded up, so offering it would be a lie. "Only when
+      I ask" cancels the job rather than scheduling one that does nothing.
+    -->
+    <string-array name="sync_interval_entries">
+        <item>Only when I ask</item>
+        <item>Every 15 minutes</item>
+        <item>Every 30 minutes</item>
+        <item>Every hour</item>
+        <item>Every 3 hours</item>
+        <item>Every 6 hours</item>
+        <item>Once a day</item>
+    </string-array>
+    <string-array name="sync_interval_values">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>1440</item>
+    </string-array>
+
+    <string-array name="retention_entries">
+        <item>3 days</item>
+        <item>1 week</item>
+        <item>2 weeks</item>
+        <item>1 month</item>
+        <item>3 months</item>
+        <item>Forever</item>
+    </string-array>
+    <string-array name="retention_values">
+        <item>3</item>
+        <item>7</item>
+        <item>14</item>
+        <item>30</item>
+        <item>90</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="text_size_entries">
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Extra large</item>
+    </string-array>
+    <string-array name="text_size_values">
+        <item>small</item>
+        <item>normal</item>
+        <item>large</item>
+        <item>xlarge</item>
+    </string-array>
+
+    <string-array name="theme_entries">
+        <item>Follow the system</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="private_tab_entries">
+        <item>Never</item>
+        <item>Ask each time</item>
+        <item>Always, when the browser allows it</item>
+    </string-array>
+    <string-array name="private_tab_values">
+        <item>never</item>
+        <item>ask</item>
+        <item>always</item>
+    </string-array>
+    <!--
+      A stream's own refresh cadence. "Use the app default" is 0, which is why
+      Sync.feedsWithCadence uses MIN(NULLIF(refresh_minutes, 0)) — zero means
+      "defer", not "never", and must not win a MIN against a real cadence.
+
+      No "never" option: a feed in a never-refreshing stream and a 15-minute one
+      cannot be fetched at two rates, so "never" would be a promise the app
+      could not keep.
+    -->
+    <string-array name="stream_cadence_entries">
+        <item>Use the app default</item>
+        <item>Every 15 minutes</item>
+        <item>Every 30 minutes</item>
+        <item>Every hour</item>
+        <item>Every 3 hours</item>
+        <item>Every 6 hours</item>
+        <item>Once a day</item>
+    </string-array>
+    <string-array name="stream_cadence_values">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>1440</item>
+    </string-array>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Ink navy. Chosen because it is nobody's masthead: an app that aggregates a
+      hundred publishers must not look like any one of them, and a red or an
+      orange here would read as a particular newspaper's client. The line not to
+      cross is identity — there is no publisher's name, wordmark or colour in
+      the app id, the label or the icon.
+
+      Frame.isLight() measures this at about 0.02 luminance, so any bar wearing
+      it gets light system icons with nothing hard-coded.
+    -->
+    <color name="accent">#16243B</color>
+    <color name="on_accent">#FFFFFF</color>
+
+    <!-- Links and the feed name on the article screen. Separate from `accent`
+         because it has to stay legible on a dark background in values-night,
+         and a bar colour and a text colour have different jobs. -->
+    <color name="accent_text">#1F3E6E</color>
+
+    <!-- The reading screen's bar is a neutral surface, not the accent: a
+         coloured bar above a list of coloured thumbnails fights with them. -->
+    <color name="top_bar">#FFFFFF</color>
+    <color name="on_top_bar">#14181F</color>
+    <color name="divider">#E4E6EA</color>
+    <color name="input_fill">#F0F2F5</color>
+
+    <color name="surface">#FFFFFF</color>
+    <color name="page_backdrop">#FBFBFC</color>
+    <color name="body_text">#14181F</color>
+    <color name="hint_text">#5B6472</color>
+    <color name="meta_text">#77808E</color>
+    <color name="error_text">#B3261E</color>
+    <color name="image_placeholder">#ECEEF1</color>
+
+    <color name="widget_bg">#FFFFFF</color>
+    <color name="widget_title">#14181F</color>
+    <color name="widget_meta">#5B6472</color>
+    <color name="widget_divider">#E8EAEE</color>
+
+    <color name="splash_background">#16243B</color>
+
+    <!-- Launcher icon background. Deliberately not repeated in values-night:
+         an adaptive icon is masked by the launcher and does not follow the
+         app's theme. -->
+    <color name="ic_launcher_background">#16243B</color>
+</resources>

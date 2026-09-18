@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The widget picker's thumbnail for launchers older than API 31, which do not
+  render previewLayout. A sketch of the real thing: a header rule and three
+  rows, each a thumbnail and two lines.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="180dp"
+    android:height="180dp"
+    android:viewportWidth="180"
+    android:viewportHeight="180">
+
+    <path
+        android:fillColor="#FF16243B"
+        android:pathData="M0,0 h180 v180 h-180 z" />
+
+    <path android:fillColor="#FFFFFFFF" android:pathData="M14,16 h60 v7 h-60 z" />
+    <path android:fillColor="#FF8FA3C0" android:pathData="M150,15 h9 v9 h-9 z" />
+    <path android:fillColor="#FF8FA3C0" android:pathData="M164,15 h9 v9 h-9 z" />
+
+    <path android:fillColor="#FF8FA3C0" android:pathData="M14,40 h34 v34 h-34 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,43 h110 v7 h-110 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,55 h78 v7 h-78 z" />
+
+    <path android:fillColor="#FF8FA3C0" android:pathData="M14,86 h34 v34 h-34 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,89 h110 v7 h-110 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,101 h92 v7 h-92 z" />
+
+    <path android:fillColor="#FF8FA3C0" android:pathData="M14,132 h34 v34 h-34 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,135 h110 v7 h-110 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M56,147 h64 v7 h-64 z" />
+</vector>

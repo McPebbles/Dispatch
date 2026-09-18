@@ -1,0 +1,31 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:prism="http://prismstandard.org/namespaces/basic/2.0/" xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns="http://purl.org/rss/1.0/" xmlns:admin="http://webns.net/mvcb/">
+    <channel rdf:about="http://feeds.nature.com/nature/rss/current">
+        <title>Nature</title>
+        <link>http://www.nature.com/nature/</link>
+        <description>Nature is a weekly international journal.</description>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="https://www.nature.com/articles/s41586-026-11110-5"/>
+                <rdf:li rdf:resource="https://www.nature.com/articles/s41586-026-11123-0"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+        <item rdf:about="https://www.nature.com/articles/s41586-026-11110-5">
+            <title><![CDATA[Inflection points and transitions in Alzheimer&#8217;s disease]]></title>
+            <link>https://www.nature.com/articles/s41586-026-11110-5</link>
+            <content:encoded>
+                <![CDATA[<p>Nature, Published online: 16 September 2026; <a href="https://www.nature.com/articles/s41586-026-11110-5">doi:10.1038/s41586-026-11110-5</a></p>Inflection points and transitions in Alzheimer&#8217;s disease]]></content:encoded>
+            <dc:title><![CDATA[Inflection points and transitions in Alzheimer&#8217;s disease]]></dc:title>
+            <dc:creator>Bart De Strooper</dc:creator><dc:creator>Eric Karran</dc:creator>
+            <dc:identifier>doi:10.1038/s41586-026-11110-5</dc:identifier>
+            <dc:date>2026-09-16</dc:date>
+            <prism:publicationName>Nature</prism:publicationName>
+        </item>
+        <item rdf:about="https://www.nature.com/articles/s41586-026-11123-0">
+            <title><![CDATA[Mechanisms of Transcriptional Regulation by Salicylic Acid Receptors]]></title>
+            <link>https://www.nature.com/articles/s41586-026-11123-0</link>
+            <dc:creator>Jian Yao</dc:creator>
+            <dc:date>2026-09-16</dc:date>
+        </item>
+</rdf:RDF>

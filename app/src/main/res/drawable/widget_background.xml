@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The widget's own surface. A rounded rectangle rather than the system
+  background attribute, because @android:attr/appWidgetRadius resolves only on
+  API 31+ and this app supports 30.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/widget_bg" />
+    <corners android:radius="18dp" />
+</shape>

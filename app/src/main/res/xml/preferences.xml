@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/pref_cat_refresh">
+
+        <ListPreference
+            app:key="sync_interval"
+            app:title="@string/pref_sync_interval_title"
+            app:summary="@string/pref_sync_interval_summary"
+            app:entries="@array/sync_interval_entries"
+            app:entryValues="@array/sync_interval_values"
+            app:defaultValue="60"
+            app:useSimpleSummaryProvider="false" />
+
+        <SwitchPreferenceCompat
+            app:key="sync_wifi_only"
+            app:title="@string/pref_sync_wifi_title"
+            app:summary="@string/pref_sync_wifi_summary"
+            app:defaultValue="false" />
+
+        <Preference
+            app:key="refresh_now"
+            app:title="@string/pref_refresh_now_title"
+            app:summary="@string/pref_refresh_now_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_cat_reading">
+
+        <SwitchPreferenceCompat
+            app:key="load_images"
+            app:title="@string/pref_images_title"
+            app:summary="@string/pref_images_summary"
+            app:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            app:key="mark_read_on_open"
+            app:title="@string/pref_mark_read_title"
+            app:summary="@string/pref_mark_read_summary"
+            app:defaultValue="true" />
+
+        <ListPreference
+            app:key="text_size"
+            app:title="@string/pref_text_size_title"
+            app:entries="@array/text_size_entries"
+            app:entryValues="@array/text_size_values"
+            app:defaultValue="normal"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:key="theme"
+            app:title="@string/pref_theme_title"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:defaultValue="system"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_cat_links">
+
+        <!--
+          Entries are filled in at run time from the installed browsers; see
+          SettingsFragment.populateBrowsers(). tools/verify_resources.py knows
+          this and does not flag the missing entries array.
+        -->
+        <ListPreference
+            app:key="link_browser"
+            app:title="@string/pref_link_browser_title"
+            app:summary="@string/pref_link_browser_summary"
+            app:defaultValue="" />
+
+        <ListPreference
+            app:key="private_tab_mode"
+            app:title="@string/pref_private_tab_title"
+            app:summary="@string/pref_private_tab_summary"
+            app:entries="@array/private_tab_entries"
+            app:entryValues="@array/private_tab_values"
+            app:defaultValue="ask" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_cat_storage">
+
+        <ListPreference
+            app:key="retention_days"
+            app:title="@string/pref_retention_title"
+            app:summary="@string/pref_retention_summary"
+            app:entries="@array/retention_entries"
+            app:entryValues="@array/retention_values"
+            app:defaultValue="14" />
+
+        <Preference
+            app:key="clear_images"
+            app:title="@string/pref_clear_images_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_cat_about">
+
+        <Preference
+            app:key="version"
+            app:title="@string/pref_version_title" />
+
+        <Preference
+            app:key="privacy"
+            app:title="@string/pref_privacy_title"
+            app:summary="@string/pref_privacy_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>

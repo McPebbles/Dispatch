@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_refresh" android:title="@string/action_refresh" />
+    <item android:id="@+id/action_unread_only" android:title="@string/action_unread_only"
+        android:checkable="true" />
+    <item android:id="@+id/action_edit_stream" android:title="@string/action_edit_stream" />
+    <item android:id="@+id/action_mark_all_read" android:title="@string/mark_all_read" />
+    <item android:id="@+id/action_feeds" android:title="@string/action_feeds" />
+    <item android:id="@+id/action_streams" android:title="@string/action_streams" />
+    <item android:id="@+id/action_settings" android:title="@string/action_settings" />
+</menu>

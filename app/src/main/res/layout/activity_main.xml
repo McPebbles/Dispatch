@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The reading screen, inside a navigation drawer.
+
+  The frame rule's requirement 3 still holds, one level in: the DrawerLayout's
+  FIRST child is the vertical stack — opaque bar wrapper first, weighted content
+  as a later sibling — and that is what cannot draw in the status-bar strip. The
+  drawer panel is an overlay and takes its own insets through Frame.insetPanel.
+
+  fitsSystemWindows is false on the DrawerLayout on purpose: its built-in inset
+  handling is from the pre-edge-to-edge era and would apply padding of its own
+  on top of the insets this app already dispatches by hand.
+-->
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/page_backdrop">
+
+        <LinearLayout
+            android:id="@+id/topBarWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/top_bar">
+
+            <LinearLayout
+                android:id="@+id/topBarRow"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/menuButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/action_menu"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_menu"
+                    app:tint="@color/on_top_bar" />
+
+                <!--
+                  Shown only when the reader is somewhere other than All feeds:
+                  in a stream, in Saved, or in a search. Tapping it goes back to
+                  All feeds. On All feeds there is nowhere to go back to, so it
+                  is GONE rather than a dead control.
+                -->
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/action_back"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_back"
+                    android:visibility="gone"
+                    app:tint="@color/on_top_bar" />
+
+                <TextView
+                    android:id="@+id/streamButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:drawableEnd="@drawable/ic_caret_down"
+                    android:drawablePadding="6dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:singleLine="true"
+                    android:text="@string/stream_all"
+                    android:textColor="@color/on_top_bar"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_box"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:singleLine="true"
+                    android:textColor="@color/on_top_bar"
+                    android:textColorHint="@color/hint_text"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/action_search"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/on_top_bar" />
+
+                <ImageButton
+                    android:id="@+id/overflowButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/action_more"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_overflow"
+                    app:tint="@color/on_top_bar" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!--
+                      The first-run card. The bundled hundred are a library, not
+                      seven ready-made sections, so the one thing a new reader
+                      needs to be shown is where streams come from.
+                    -->
+                    <LinearLayout
+                        android:id="@+id/startCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/start_card"
+                        android:orientation="vertical"
+                        android:layout_margin="12dp"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/start_card_title"
+                            android:textColor="@color/on_accent"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="4dp"
+                            android:text="@string/start_card_body"
+                            android:textColor="@color/on_accent"
+                            android:textSize="13sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp">
+
+                            <Button
+                                android:id="@+id/startCardBuild"
+                                style="?attr/buttonBarButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/start_card_build"
+                                android:textColor="@color/on_accent" />
+
+                            <Button
+                                android:id="@+id/startCardDismiss"
+                                style="?attr/buttonBarButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/start_card_dismiss"
+                                android:textColor="@color/on_accent" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/articles"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:clipToPadding="false"
+                        android:scrollbars="vertical" />
+                </LinearLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <TextView
+                android:id="@+id/emptyView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:text="@string/empty_stream"
+                android:textColor="@color/hint_text"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- The drawer panel. Takes its own insets; see Frame.insetPanel. -->
+    <LinearLayout
+        android:id="@+id/drawerPanel"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/surface"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/accent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:text="@string/app_name"
+            android:textColor="@color/on_accent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/drawerList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

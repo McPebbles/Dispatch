@@ -1,0 +1,45 @@
+name: build
+
+# GitHub refuses a push that writes .github/workflows/ from a token without the
+# workflow scope, and the device-write tool this project uses cannot reach that
+# path either. So the workflow lives in workflows/ and is moved into place by
+# hand — see workflows/README.md.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Structural checks (no SDK needed)
+        run: bash tools/verify_all.sh
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Unit tests
+        run: ./gradlew --no-daemon testDebugUnitTest
+
+      - name: Assemble debug
+        run: ./gradlew --no-daemon assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dispatch-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-report
+          path: app/build/reports/tests/testDebugUnitTest/

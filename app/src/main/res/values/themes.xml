@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      Requirement 1 of the frame rule.
+
+      NoActionBar: at targetSdk 36 the decor no longer insets content for a
+      stock ActionBar, so an ActionBar would float over content drawing behind
+      the status bar. Transparent system bars because the app paints the strip
+      itself. enforce*Contrast false so the platform does not draw its own scrim
+      over the bar's background — without it the strip comes out a slightly
+      different shade from the bar directly beneath it.
+
+      All four values are repeated in values-night. Setting them here and
+      forgetting the night copy is the specific mistake frame-rule.md calls out.
+    -->
+    <style name="Theme.Dispatch" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorAccent">@color/accent_text</item>
+        <item name="android:colorBackground">@color/page_backdrop</item>
+        <item name="android:windowBackground">@color/page_backdrop</item>
+        <item name="android:textColorPrimary">@color/body_text</item>
+        <item name="android:textColorSecondary">@color/hint_text</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="29">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="29">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.Dispatch.Settings" parent="Theme.Dispatch">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <!--
+      The splash theme does not inherit the app theme, so its system icon
+      appearance has to be set explicitly. The background is the brand navy,
+      which is dark enough to need light icons.
+    -->
+    <style name="Theme.Dispatch.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Dispatch</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="29">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="29">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

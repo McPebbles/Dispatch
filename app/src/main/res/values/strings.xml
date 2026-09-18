@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dispatch</string>
+
+    <!-- Actions -->
+    <string name="action_back">Back</string>
+    <string name="action_more">More</string>
+    <string name="action_search">Search</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_refresh_one">Refresh this feed</string>
+    <string name="action_save">Save story</string>
+    <string name="action_unsave">Remove from saved</string>
+    <string name="action_share">Share</string>
+    <string name="action_copy_link">Copy link</string>
+    <string name="action_copy_feed_url">Copy feed address</string>
+    <string name="action_open_external">Open in browser</string>
+    <string name="action_open_site">Open the publisher\'s site</string>
+    <string name="action_mark_read">Mark as read</string>
+    <string name="action_mark_unread">Mark as unread</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_remove_feed">Remove feed</string>
+    <string name="action_edit_feeds">Choose feeds</string>
+    <string name="action_delete_stream">Delete stream</string>
+    <string name="add">Add</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="done">Done</string>
+    <string name="keep">Keep them</string>
+    <string name="select_all">Select all</string>
+
+    <!-- Streams -->
+    <string name="stream_all">All feeds</string>
+    <string name="stream_saved">Saved stories</string>
+    <string name="stream_saved_count">Saved stories (%1$d)</string>
+    <string name="stream_with_count">%1$s (%2$d)</string>
+    <string name="pick_stream">Show</string>
+    <string name="manage_streams">Manage streams</string>
+    <string name="streams_title">Streams</string>
+    <string name="streams_empty">No streams yet. A stream is a named set of
+        feeds — Morning, Tech, Local — and a widget can be tied to one.</string>
+    <string name="new_stream">New stream</string>
+    <string name="stream_name_hint">Stream name</string>
+    <string name="stream_name_required">A stream needs a name.</string>
+    <string name="pick_feeds">Feeds in this stream</string>
+    <string name="delete_stream_confirm">Delete the stream “%1$s”? The feeds in
+        it stay subscribed — only the grouping goes. Any widget showing this
+        stream moves to All feeds.</string>
+
+    <!-- Feeds -->
+    <string name="feeds_title">Feeds</string>
+    <string name="feeds_empty">No feeds yet. Add one with + , or import an OPML
+        file from another reader.</string>
+    <string name="add_feed">Add a feed</string>
+    <string name="add_feed_hint">Feed or site address</string>
+    <string name="add_feed_explainer">Paste a feed address, or just the site —
+        Dispatch will look for the feed the site advertises.</string>
+    <string name="add_feed_looking">Looking for a feed…</string>
+    <string name="add_feed_added">Added %1$s — %2$d stories</string>
+    <string name="add_feed_already">%1$s is already in your feeds</string>
+    <string name="add_feed_failed">Could not add that feed</string>
+    <string name="add_feed_which">This site has more than one feed</string>
+    <string name="remove_feed_confirm">Remove “%1$s”? Its stories go with it,
+        including any you have saved from it.</string>
+    <string name="feed_never_fetched">Not fetched yet</string>
+    <string name="feed_ok">%1$d stories · checked %2$s</string>
+
+    <!-- Refreshing -->
+    <string name="refresh_no_feeds">No feeds to refresh</string>
+    <string name="refresh_nothing_new">Nothing new</string>
+    <string name="refresh_unchanged">Unchanged since the last check</string>
+    <string name="refresh_partial">%1$d new · %2$d feeds could not be read</string>
+    <string name="refresh_started">Refreshing in the background…</string>
+
+    <!-- Lists -->
+    <string name="search_hint">Search stories</string>
+    <string name="empty_stream">Nothing here yet. Pull down to refresh.</string>
+    <string name="empty_saved">No saved stories. Tap the bookmark on a story to
+        keep it — saved stories are never deleted by the clean-up.</string>
+    <string name="empty_unread">Nothing unread.</string>
+    <string name="empty_search">No stories match that.</string>
+    <string name="mark_all_read">Mark all read</string>
+    <string name="mark_all_read_confirm">Mark every story in this view as
+        read?</string>
+
+    <!-- Article -->
+    <string name="article_image">Article image</string>
+    <string name="article_no_text">This feed gives headlines only. Open the full
+        article to read it.</string>
+    <string name="read_full_article">Read the full article</string>
+    <string name="saved_added">Saved</string>
+    <string name="saved_removed">Removed from saved</string>
+
+    <!-- Links and browsers -->
+    <string name="link_copied">Link copied</string>
+    <string name="link_copy_failed">Could not copy the link</string>
+    <string name="no_browser">No browser installed to open this link.</string>
+    <string name="browser_gone">%1$s is no longer installed — using the system
+        default instead.</string>
+    <string name="external_title">Open in a browser</string>
+    <string name="external_open">Open in browser</string>
+    <string name="external_open_in">Open in %1$s</string>
+    <string name="external_open_anyway">Open in browser anyway</string>
+    <string name="external_private">Open in %1$s private tab</string>
+    <string name="external_copy">Copy link</string>
+    <string name="external_no_private">No installed browser lets another app
+        open a private tab. Most Chromium browsers, including Vanadium, refuse
+        this by design; Firefox and its forks allow it.</string>
+    <string name="external_no_private_chosen">%1$s does not let another app open
+        a private tab. Chromium browsers refuse this by design; Firefox and its
+        forks allow it, and Firefox Focus is private throughout. You can change
+        which browser this app uses in Settings.</string>
+    <string name="external_private_unavailable">Opened normally: no installed
+        browser accepts a private-tab request.</string>
+    <string name="browser_always_private">%1$s — always private</string>
+    <string name="browser_can_private">%1$s — can open private tabs</string>
+    <string name="browser_not_installed">%1$s (no longer installed)</string>
+
+    <!-- Import / export -->
+    <string name="import_failed">Could not read that file</string>
+    <string name="export_done">Subscriptions exported</string>
+    <string name="export_failed">Could not write that file</string>
+
+    <!-- Widget -->
+    <string name="widget_label">Dispatch headlines</string>
+    <string name="widget_description">The latest stories from one stream, with
+        no more than three from any single feed.</string>
+    <string name="widget_config_title">Widget settings</string>
+    <string name="widget_pick_stream">Which stream</string>
+    <string name="widget_pick_stream_note">The widget shows up to ten stories
+        from this stream, and never more than three from one feed.</string>
+    <string name="widget_show_byline">Show the byline</string>
+    <string name="widget_show_byline_note">Adds the writer and the publication
+        under each headline. Long bylines trail into an ellipsis.</string>
+    <string name="widget_empty">No stories yet. Tap refresh.</string>
+
+    <!-- Relative time, compact enough for a widget row -->
+    <string name="time_now">now</string>
+    <string name="time_minutes">%1$dm</string>
+    <string name="time_hours">%1$dh</string>
+    <string name="time_days">%1$dd</string>
+    <string name="time_weeks">%1$dw</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+
+    <string name="pref_cat_refresh">Refreshing</string>
+    <string name="pref_sync_interval_title">Refresh in the background</string>
+    <string name="pref_sync_interval_summary">Dispatch has no push service —
+        push on Android means Firebase, which means Google Play services. It
+        polls on this schedule instead, using the system\'s own job scheduler.
+        Fifteen minutes is the shortest interval Android allows.</string>
+    <string name="pref_sync_wifi_title">Only on unmetered networks</string>
+    <string name="pref_sync_wifi_summary">Background refreshes wait for Wi-Fi.
+        A manual pull-to-refresh always runs.</string>
+    <string name="pref_refresh_now_title">Refresh now</string>
+    <string name="pref_refresh_now_summary">Fetch every feed once, in the
+        background.</string>
+
+    <string name="pref_cat_reading">Reading</string>
+    <string name="pref_images_title">Load images</string>
+    <string name="pref_images_summary">Thumbnails and article pictures are
+        fetched from the publisher\'s servers. Turning this off means the app
+        contacts nothing but the feeds themselves.</string>
+    <string name="pref_images_off_title">Images turned off</string>
+    <string name="pref_images_off_message">Remove the images already stored on
+        this device as well?</string>
+    <string name="clear_images">Remove them</string>
+    <string name="images_cleared">Stored images removed</string>
+    <string name="pref_clear_images_title">Clear stored images</string>
+    <string name="pref_clear_images_summary">%1$d MB on this device</string>
+    <string name="pref_mark_read_title">Mark as read when opened</string>
+    <string name="pref_mark_read_summary">Off keeps every story unread until you
+        mark it yourself.</string>
+    <string name="pref_text_size_title">Text size</string>
+    <string name="pref_theme_title">Theme</string>
+
+    <string name="pref_cat_storage">Storage</string>
+    <string name="pref_retention_title">Keep stories for</string>
+    <string name="pref_retention_summary">Older stories are deleted after each
+        refresh. Saved stories are never deleted, and every feed keeps its 50
+        newest whatever their age.</string>
+
+    <string name="pref_cat_links">Links</string>
+    <string name="pref_link_browser_title">Browser for article links</string>
+    <string name="pref_link_browser_summary">Which browser this app hands
+        articles to. Separate from the system default on purpose: you can keep
+        one browser for everyday use and send a hundred publishers\' links
+        somewhere disposable.</string>
+    <string name="pref_link_browser_system">System default</string>
+    <string name="pref_private_tab_title">Open article links privately</string>
+    <string name="pref_private_tab_summary">Only applies when the browser above
+        will honour it. Firefox and its forks accept a private-tab request from
+        another app; Chromium browsers, including Vanadium, refuse it, and the
+        app will say so rather than opening an ordinary tab and calling it
+        private. A browser that is always private, like Firefox Focus, never
+        asks.</string>
+
+    <string name="pref_cat_about">About</string>
+    <string name="pref_version_title">Version</string>
+    <string name="pref_version_summary">%1$s (build %2$d)</string>
+    <string name="pref_privacy_title">What this app talks to</string>
+    <string name="pref_privacy_summary">The feeds you subscribe to, and — when
+        images are on — the servers those feeds name for their pictures. Nothing
+        else: no analytics, no crash reporting, no Google Play services, and no
+        account.</string>
+
+    <!-- Navigation -->
+    <string name="action_menu">Menu</string>
+    <string name="drawer_streams">Your streams</string>
+    <string name="drawer_no_streams">No streams yet — build one</string>
+    <string name="drawer_library">Feed library (%1$d)</string>
+
+    <!-- The first-run card -->
+    <string name="start_card_title">Build your first stream</string>
+    <string name="start_card_body">A hundred feeds are already here, filed by
+        category. A stream is your own selection of them — pick feeds one by
+        one, or whole categories that keep themselves up to date.</string>
+    <string name="start_card_build">Build a stream</string>
+    <string name="start_card_dismiss">Not now</string>
+
+    <!-- Categories -->
+    <string name="categories_title">Categories</string>
+    <string name="categories_empty">No categories yet. They are labels for
+        filing feeds, and they are what lets a stream say “everything tagged
+        Sports”.</string>
+    <string name="category_none">No category</string>
+    <string name="category_new">New category…</string>
+    <string name="category_name_hint">Category name</string>
+    <string name="category_builtin">%1$s · came with the app</string>
+    <string name="action_set_category">Change category</string>
+    <string name="action_delete_category">Delete category</string>
+    <string name="delete_category_confirm">Delete “%1$s”? The %2$d feeds filed
+        under it stay subscribed and become uncategorised, and any stream that
+        included this category loses that rule.</string>
+
+    <!-- The feed library -->
+    <string name="filter_search_hint">Search feeds</string>
+    <string name="filter_all_categories">All categories</string>
+    <string name="filter_uncategorised">Uncategorised</string>
+    <string name="feeds_none_match">No feeds match that.</string>
+    <string name="feed_status_line">%1$s · %2$s</string>
+
+    <!-- Adding a feed -->
+    <string name="add_feed_find">Find feed</string>
+    <string name="add_feed_name">Name</string>
+    <string name="add_feed_category">Category</string>
+    <string name="add_feed_category_note">Used to find this feed later, and by
+        any stream that includes the whole category.</string>
+    <string name="add_feed_save">Add to library</string>
+    <string name="add_feed_import_note">Coming from another reader? Import its
+        OPML file and your folders become categories and streams.</string>
+    <string name="import_running">Importing…</string>
+
+    <!-- The stream builder -->
+    <string name="stream_edit_title">Edit stream</string>
+    <string name="stream_refresh_label">Refresh</string>
+    <string name="stream_categories_none">Include whole categories…</string>
+    <string name="stream_categories_some">Categories: %1$s</string>
+    <string name="stream_categories_note">A category keeps up: a feed tagged
+        with it later joins this stream on its own.</string>
+    <string name="stream_pick_categories">Include whole categories</string>
+    <string name="stream_search_feeds">Search the library</string>
+    <string name="stream_selection_summary">%1$d feeds picked · %2$d categories</string>
+    <string name="stream_members_both">%1$d feeds + %2$d categories</string>
+    <string name="stream_status_line">%1$s · %2$s</string>
+    <string name="stream_empty_title">Nothing in this stream</string>
+    <string name="stream_empty_message">It has no feeds and no categories, so
+        it will show nothing. Save it anyway?</string>
+    <string name="stream_save_failed">Could not save that stream</string>
+    <string name="action_edit_stream">Edit this stream</string>
+
+    <!-- Menus -->
+    <string name="action_unread_only">Unread only</string>
+    <string name="action_feeds">Manage feeds</string>
+    <string name="action_streams">Streams</string>
+    <string name="action_saved">Saved stories</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_import">Import OPML…</string>
+    <string name="action_categories">Categories…</string>
+    <string name="action_export">Export OPML…</string>
+</resources>

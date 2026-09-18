@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>World news | The Guardian</title>
+    <link>https://www.theguardian.com/world</link>
+    <description>Latest World news news, comment and analysis from the Guardian</description>
+    <language>en-gb</language>
+    <pubDate>Thu, 17 Sep 2026 03:46:04 GMT</pubDate>
+    <item>
+      <title>&#8216;We are prey&#8217;: discovery of seven women&#8217;s bodies fuels anger over femicide</title>
+      <link>https://www.theguardian.com/world/2026/sep/16/discovery-women-bodies-anger-femicide-south-africa</link>
+      <description>&lt;p&gt;String of female murder victims found near Johannesburg&#8217;s international airport&lt;/p&gt;&lt;p&gt;The discovery of the bodies of eight women around the airport has prompted an outpouring of fear, grief and anger.&lt;/p&gt; &lt;a href="https://www.theguardian.com/world/2026/sep/16/discovery-women-bodies-anger-femicide-south-africa"&gt;Continue reading...&lt;/a&gt;</description>
+      <category domain="https://www.theguardian.com/world/southafrica">South Africa</category>
+      <category domain="https://www.theguardian.com/society/women">Women</category>
+      <pubDate>Wed, 16 Sep 2026 15:02:19 GMT</pubDate>
+      <guid>https://www.theguardian.com/world/2026/sep/16/discovery-women-bodies-anger-femicide-south-africa</guid>
+      <media:content width="140" url="https://i.guim.co.uk/img/media/81da1440/master/2981.jpg?width=140&amp;quality=85">
+        <media:credit scheme="urn:ebu">Photograph: AP</media:credit>
+      </media:content>
+      <media:content width="460" url="https://i.guim.co.uk/img/media/81da1440/master/2981.jpg?width=460&amp;quality=85">
+        <media:credit scheme="urn:ebu">Photograph: AP</media:credit>
+      </media:content>
+      <media:content width="700" url="https://i.guim.co.uk/img/media/81da1440/master/2981.jpg?width=700&amp;quality=85">
+        <media:credit scheme="urn:ebu">Photograph: AP</media:credit>
+      </media:content>
+      <dc:creator>Rachel Savage in Johannesburg</dc:creator>
+      <dc:date>2026-09-16T15:02:19Z</dc:date>
+    </item>
+  </channel>
+</rss>

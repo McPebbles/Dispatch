@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A 4x4 tile.
+
+  minWidth/minHeight are the old sizing contract and are still what pre-31
+  launchers use: the formula is 70*n - 30, so four cells is 250dp. On API 31+
+  targetCellWidth/Height say the same thing in cells, which is what the launcher
+  actually honours now.
+
+  widgetFeatures="reconfigurable|configuration_optional":
+    - reconfigurable lets the system reopen the configuration activity;
+    - configuration_optional means a freshly placed widget works immediately
+      (All feeds, no byline) instead of forcing a setup screen on someone who
+      just dragged it onto the home screen. The gear is there when they want it.
+
+  updatePeriodMillis is 0 on purpose. The platform floor is 30 minutes and it
+  wakes the device; this app's refresh is WorkManager's, on the reader's own
+  schedule, and the widget is told to re-read when that finishes.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="250dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="110dp"
+    android:maxResizeWidth="450dp"
+    android:maxResizeHeight="500dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="4"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_news"
+    android:previewLayout="@layout/widget_news"
+    android:previewImage="@drawable/widget_preview"
+    android:configure="com.dispatch.reader.widget.WidgetConfigActivity"
+    android:description="@string/widget_description"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional" />

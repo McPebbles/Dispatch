@@ -1,0 +1,15 @@
+﻿
+  <?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Undeclared entities &amp; other repairs</title>
+    <link>https://example.org/</link>
+    <item>
+      <title>Budget &mdash; caf&eacute; prices rise 5% &amp; hold</title>
+      <link>https://example.org/a?x=1&y=2</link>
+      <pubDate>Mon, 01 Sep 2026 09:00:00 EST</pubDate>
+      <description>Spaces&nbsp;here, a bare &amp; ampersand, and an &unknownthing; entity.</description>
+      <content:encoded><![CDATA[<p>Inside CDATA &nbsp; must stay literal.</p><img src="https://example.org/pixel/1x1.gif" width="1" height="1" /><img src="https://example.org/real.jpg" width="600" />]]></content:encoded>
+    </item>
+  </channel>
+</rss>

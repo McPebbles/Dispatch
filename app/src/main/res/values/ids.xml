@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      A tag slot on an ImageView, holding the cache key of the picture it is
+      currently showing. View.setTag(int, Object) throws unless the key is an
+      application resource id, so this cannot be an arbitrary constant.
+    -->
+    <item name="image_url_tag" type="id" />
+</resources>

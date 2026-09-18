@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#16243B</color>
+    <color name="on_accent">#FFFFFF</color>
+    <!-- Lightened so it stays a legible link colour on a near-black page. -->
+    <color name="accent_text">#9FC1F5</color>
+
+    <color name="top_bar">#14171C</color>
+    <color name="on_top_bar">#E7EAEF</color>
+    <color name="divider">#262B33</color>
+    <color name="input_fill">#1D2127</color>
+
+    <color name="surface">#14171C</color>
+    <color name="page_backdrop">#0E1116</color>
+    <color name="body_text">#E7EAEF</color>
+    <color name="hint_text">#9AA3B0</color>
+    <color name="meta_text">#828C9B</color>
+    <color name="error_text">#F2B8B5</color>
+    <color name="image_placeholder">#1D2127</color>
+
+    <color name="widget_bg">#14171C</color>
+    <color name="widget_title">#E7EAEF</color>
+    <color name="widget_meta">#9AA3B0</color>
+    <color name="widget_divider">#262B33</color>
+
+    <color name="splash_background">#16243B</color>
+</resources>
