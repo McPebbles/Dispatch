@@ -541,6 +541,46 @@ def rule_no_control_characters():
 
 
 
+
+# ---------------------------------------------------------------------------
+# 13. A widget layout may only use classes RemoteViews can inflate.
+#
+# The launcher inflates these in its own process through RemoteViews, which
+# supports a fixed list of classes. Anything else — a bare <View>, a
+# ConstraintLayout, a RecyclerView, a SwitchCompat — fails there and succeeds
+# everywhere else, so nothing in the build or in the app notices. 1.1.1 shipped
+# a <View> as a row divider and every row of every widget came out as
+# "Couldn't add widget."
+# ---------------------------------------------------------------------------
+
+REMOTE_VIEWS_CLASSES = {
+    "FrameLayout", "LinearLayout", "RelativeLayout", "GridLayout",
+    "AnalogClock", "Button", "Chronometer", "ImageButton", "ImageView",
+    "ProgressBar", "TextView", "ViewFlipper", "ListView", "GridView",
+    "StackView", "AdapterViewFlipper", "ViewStub", "TextClock", "Space",
+    "CheckBox", "RadioButton", "RadioGroup", "Switch",
+}
+
+
+def rule_widget_layouts_are_remotable():
+    layout_dir = os.path.join(RES, "layout")
+    for name in sorted(os.listdir(layout_dir)):
+        if not name.startswith("widget_"):
+            continue
+        root = ET.parse(os.path.join(layout_dir, name)).getroot()
+        for element in root.iter():
+            tag = element.tag
+            if not isinstance(tag, str):
+                continue  # a comment
+            simple = tag.split(".")[-1]
+            check(
+                "%s uses only RemoteViews-inflatable views (<%s>)" % (name, simple),
+                simple in REMOTE_VIEWS_CLASSES,
+                "RemoteViews cannot inflate it; the launcher says \"Couldn't add widget\"",
+            )
+
+
+
 def main():
     rule_pure_core()
     rule_pending_intents()
@@ -554,6 +594,7 @@ def main():
     rule_library_not_streams()
     rule_navigation()
     rule_no_control_characters()
+    rule_widget_layouts_are_remotable()
 
     print("%d invariants checked" % CHECKS[0])
     if FAILURES:

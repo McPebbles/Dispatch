@@ -104,6 +104,22 @@
                     android:textSize="15sp"
                     android:visibility="gone" />
 
+                <!--
+                  Refresh is a button, not a gesture. Pull-to-refresh used to
+                  live here and was removed: an accidental overscroll at the
+                  top of the list fetched every feed in the stream, which on a
+                  phone radio is a minute of work nobody asked for.
+                -->
+                <ImageButton
+                    android:id="@+id/refreshButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/action_refresh"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_refresh"
+                    app:tint="@color/on_top_bar" />
+
                 <ImageButton
                     android:id="@+id/searchButton"
                     android:layout_width="48dp"
@@ -137,80 +153,106 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+                <!--
+                  The first-run card. The bundled hundred are a library, not
+                  seven ready-made sections, so the one thing a new reader
+                  needs to be shown is where streams come from.
+                -->
                 <LinearLayout
+                    android:id="@+id/startCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/start_card"
+                    android:orientation="vertical"
+                    android:layout_margin="12dp"
+                    android:padding="16dp"
+                    android:visibility="gone">
 
-                    <!--
-                      The first-run card. The bundled hundred are a library, not
-                      seven ready-made sections, so the one thing a new reader
-                      needs to be shown is where streams come from.
-                    -->
-                    <LinearLayout
-                        android:id="@+id/startCard"
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/start_card"
-                        android:orientation="vertical"
-                        android:layout_margin="12dp"
-                        android:padding="16dp"
-                        android:visibility="gone">
+                        android:text="@string/start_card_title"
+                        android:textColor="@color/on_accent"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/start_card_title"
-                            android:textColor="@color/on_accent"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="4dp"
-                            android:text="@string/start_card_body"
-                            android:textColor="@color/on_accent"
-                            android:textSize="13sp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingTop="8dp">
-
-                            <Button
-                                android:id="@+id/startCardBuild"
-                                style="?attr/buttonBarButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/start_card_build"
-                                android:textColor="@color/on_accent" />
-
-                            <Button
-                                android:id="@+id/startCardDismiss"
-                                style="?attr/buttonBarButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/start_card_dismiss"
-                                android:textColor="@color/on_accent" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/articles"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:clipToPadding="false"
-                        android:scrollbars="vertical" />
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:text="@string/start_card_body"
+                        android:textColor="@color/on_accent"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp">
+
+                        <Button
+                            android:id="@+id/startCardBuild"
+                            style="?attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/start_card_build"
+                            android:textColor="@color/on_accent" />
+
+                        <Button
+                            android:id="@+id/startCardDismiss"
+                            style="?attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/start_card_dismiss"
+                            android:textColor="@color/on_accent" />
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/articles"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical" />
+            </LinearLayout>
+
+            <!--
+              Shown instead of the list while a refresh is running. Hiding the
+              stories is the point: mid-refresh a row can be pointing at an
+              article the sync has already replaced, and opening it gave a
+              blank screen.
+            -->
+            <LinearLayout
+                android:id="@+id/busyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/busySpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/busyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="12dp"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:text="@string/refreshing"
+                    android:textColor="@color/hint_text"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/emptyView"

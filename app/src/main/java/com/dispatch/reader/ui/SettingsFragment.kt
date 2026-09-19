@@ -43,7 +43,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 if (app != null) Safely.run { SyncScheduler.reschedule(app, app.repo) }
             }
             Prefs.KEY_THEME -> {
-                (activity?.application as? App)?.applyTheme()
+                val app = activity?.application as? App
+                app?.applyTheme()
+                // Widgets set to follow the app are drawn by the launcher and
+                // will not notice this on their own; without it the tile keeps
+                // yesterday's colours until something else happens to it.
+                if (app != null) Safely.run { NewsWidgetProvider.refreshAll(app) }
                 activity?.recreate()
             }
             Prefs.KEY_IMAGES -> onImagesChanged()
@@ -54,6 +59,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         populateBrowsers()
+        populateStreams()
         wireActions()
     }
 
@@ -113,6 +119,40 @@ class SettingsFragment : PreferenceFragmentCompat() {
         pref.entries = labels.toTypedArray()
         pref.entryValues = values.toTypedArray()
         if (pref.value == null) pref.value = com.dispatch.reader.web.BrowserChoice.SYSTEM_DEFAULT
+    }
+
+    /**
+     * The "open on" list.
+     *
+     * Built from the database because its entries *are* the reader's streams:
+     * an `arrays.xml` list would be wrong the first time one is renamed. A
+     * stream that has since been deleted is dropped here and [Prefs.openStream]
+     * falls back, so the setting cannot point at nothing.
+     */
+    private fun populateStreams() {
+        val pref = findPreference<ListPreference>(Prefs.KEY_OPEN_STREAM) ?: return
+        val app = activity?.application as? App ?: return
+        app.io.execute {
+            val streams = Safely.call({ app.repo.streams() }, emptyList())
+            activity?.runOnUiThread {
+                val context = context ?: return@runOnUiThread
+                val labels = ArrayList<CharSequence>()
+                val values = ArrayList<CharSequence>()
+                labels += context.getString(R.string.pref_open_stream_last)
+                values += Prefs.OPEN_LAST
+                labels += context.getString(R.string.stream_all)
+                values += com.dispatch.reader.data.Stream.ALL_ID.toString()
+                labels += context.getString(R.string.stream_saved)
+                values += com.dispatch.reader.data.Stream.SAVED_ID.toString()
+                for (stream in streams) {
+                    labels += stream.name
+                    values += stream.id.toString()
+                }
+                pref.entries = labels.toTypedArray()
+                pref.entryValues = values.toTypedArray()
+                if (pref.value == null || pref.value !in values) pref.value = Prefs.OPEN_LAST
+            }
+        }
     }
 
     private fun wireActions() {

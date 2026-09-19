@@ -18,7 +18,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dispatch.reader.App
 import com.dispatch.reader.R
 import com.dispatch.reader.data.Article
@@ -49,25 +48,24 @@ import com.dispatch.reader.web.ExternalLinks
  * nothing. The system back gesture does the same thing before it leaves the
  * app, so the two can never disagree.
  *
- * ## Pull-to-refresh, and why it is uncomplicated here
+ * ## There is no pull-to-refresh, on purpose
  *
- * The suite has a standing rule about `SwipeRefreshLayout`
- * (`claude/pull-to-refresh-rule.md`), written after it broke scrolling in two
- * apps. That rule is about a **WebView**: the refresh layout asks the child
- * "can you scroll up?", and a WebView showing an app-shell site answers 0
- * forever, so the layout claims every downward drag.
- *
- * A `RecyclerView` answers correctly, from its own layout manager,
- * synchronously. So pull-to-refresh is safe here — not by luck, but because the
- * condition the rule is about is absent. Written down so that nobody ports the
- * WebView workaround into a screen that does not need it.
+ * There was, and it behaved correctly: the suite's standing rule
+ * (`claude/pull-to-refresh-rule.md`) is about a **WebView** answering
+ * `canScrollVertically(-1)` wrongly, and a RecyclerView answers it properly.
+ * It was removed for a different reason: the gesture is indistinguishable from
+ * an overscroll at the top of the list, and here the cost of a misfire is
+ * fetching every feed in the stream over a phone radio. A refresh is a button
+ * now — the one in the bar, or the overflow item — and it refreshes **this
+ * stream only**.
  */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var frame: Frame
     private lateinit var drawer: DrawerLayout
     private lateinit var drawerAdapter: DrawerAdapter
-    private lateinit var refresh: SwipeRefreshLayout
+    private lateinit var busyView: View
+    private lateinit var busyText: TextView
     private lateinit var list: RecyclerView
     private lateinit var streamButton: TextView
     private lateinit var searchField: EditText
@@ -79,6 +77,15 @@ class MainActivity : AppCompatActivity() {
     private var streamId: Long = Stream.ALL_ID
     private var query: String = ""
     private var unreadOnly: Boolean = false
+
+    /**
+     * The stream a refresh is currently running for, or null.
+     *
+     * Kept as an id rather than a flag so that walking away from a refreshing
+     * stream shows the stream you walked to, rather than the busy screen that
+     * belongs to the one you left.
+     */
+    private var refreshingStream: Long? = null
 
     private val app: App get() = application as App
 
@@ -112,7 +119,8 @@ class MainActivity : AppCompatActivity() {
         // its own insets or its first row sits under the clock.
         frame.insetPanel(findViewById(R.id.drawerPanel))
 
-        refresh = findViewById(R.id.refresh)
+        busyView = findViewById(R.id.busyView)
+        busyText = findViewById(R.id.busyText)
         list = findViewById(R.id.articles)
         streamButton = findViewById(R.id.streamButton)
         searchField = findViewById(R.id.searchField)
@@ -131,11 +139,7 @@ class MainActivity : AppCompatActivity() {
             adapter = drawerAdapter
         }
 
-        refresh.setOnRefreshListener { refreshNow() }
-        refresh.setColorSchemeColors(resolveColour(R.color.accent))
-        // The spinner's disc is white by default, which is a bright flash in a
-        // dark theme — one of the seams the frame rule names.
-        refresh.setProgressBackgroundColorSchemeColor(resolveColour(R.color.surface))
+        findViewById<ImageButton>(R.id.refreshButton).setOnClickListener { refreshNow() }
 
         findViewById<ImageButton>(R.id.menuButton).setOnClickListener {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -182,7 +186,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         unreadOnly = Prefs.unreadOnly(this)
-        streamId = intent.getLongExtra(EXTRA_STREAM_ID, Prefs.selectedStream(this))
+        // A widget's intent names the stream it is tied to and wins; otherwise
+        // the reader's "open on" setting decides, which defaults to wherever
+        // they left off.
+        streamId = intent.getLongExtra(EXTRA_STREAM_ID, Prefs.openStream(this))
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -355,6 +362,11 @@ class MainActivity : AppCompatActivity() {
                 Safely.call({ app.repo.streams().isEmpty() }, false)
             runOnUiThread {
                 if (currentStream != streamId || currentQuery != query) return@runOnUiThread
+                // A refresh owns the screen of the stream it is refreshing until
+                // it finishes, and calls reload() itself when it does.
+                if (refreshingStream == currentStream) return@runOnUiThread
+                busyView.visibility = View.GONE
+                list.visibility = View.VISIBLE
                 // A stream deleted from another screen must not leave the
                 // reader looking at an empty view with a name on it.
                 if (streamMissing) {
@@ -384,18 +396,50 @@ class MainActivity : AppCompatActivity() {
         else -> app.repo.stream(id)?.name ?: getString(R.string.stream_all)
     }
 
+    /**
+     * Refresh the stream on screen, and hide it while that happens.
+     *
+     * Two rules, both from watching this on a phone:
+     *
+     *  - **only this stream's feeds.** The reader asked about what they are
+     *    looking at. "All feeds" still means all of them, because that is what
+     *    it says.
+     *  - **the list goes away until it is done.** A story tapped mid-refresh
+     *    could be one the sync was in the middle of rewriting, and it opened
+     *    blank. There is nothing to tap now, and the count says why.
+     */
     private fun refreshNow() {
-        refresh.isRefreshing = true
+        if (refreshingStream != null) return
+        val stream = streamId
+        refreshingStream = stream
+        showBusy(getString(R.string.refreshing))
         app.io.execute {
             // force = true: the reader asked now, so cadence does not apply.
-            val summary = Safely.call({ Sync.refreshAll(this, app.repo, force = true) }, null)
+            val summary = Safely.call({
+                Sync.refreshStream(this, app.repo, stream, force = true) { done, total ->
+                    runOnUiThread {
+                        if (refreshingStream == stream && busyView.visibility == View.VISIBLE) {
+                            busyText.text = getString(R.string.refreshing_count, done, total)
+                        }
+                    }
+                }
+            }, null)
             runOnUiThread {
-                refresh.isRefreshing = false
+                refreshingStream = null
+                busyView.visibility = View.GONE
                 if (summary != null) toast(summaryText(summary))
                 reload()
                 reloadDrawer()
             }
         }
+    }
+
+    private fun showBusy(message: String) {
+        busyText.text = message
+        busyView.visibility = View.VISIBLE
+        list.visibility = View.GONE
+        emptyView.visibility = View.GONE
+        startCard.visibility = View.GONE
     }
 
     private fun summaryText(summary: Sync.Summary): String = when {

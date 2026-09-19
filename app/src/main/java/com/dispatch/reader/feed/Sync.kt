@@ -50,13 +50,55 @@ object Sync {
         repo: Repo,
         force: Boolean = true,
         onProgress: ((done: Int, total: Int) -> Unit)? = null,
+    ): Summary = refresh(context, repo, repo.feedsWithCadence(), force, onProgress)
+
+    /**
+     * Refresh only the feeds one stream shows.
+     *
+     * This is what every *manual* refresh uses. A reader looking at a stream of
+     * six feeds who asks for new stories is asking about those six; fetching a
+     * hundred instead costs minutes of radio time for stories they are not
+     * looking at, and is the difference between a refresh that feels like a
+     * button and one that feels like a sync.
+     *
+     * "All feeds" is the whole library, because that is what it says it is.
+     * Saved stories refreshes nothing: it is a shelf, not a source.
+     */
+    fun refreshStream(
+        context: Context,
+        repo: Repo,
+        streamId: Long,
+        force: Boolean = true,
+        onProgress: ((done: Int, total: Int) -> Unit)? = null,
+    ): Summary {
+        if (streamId == Stream.SAVED_ID) return Summary(0, 0, 0, 0, 0)
+        val all = repo.feedsWithCadence()
+        val entries = if (streamId == Stream.ALL_ID) {
+            all
+        } else {
+            val members = repo.feedsIn(streamId).map { it.id }.toHashSet()
+            all.filter { it.feed.id in members }
+        }
+        return refresh(context, repo, entries, force, onProgress)
+    }
+
+    private fun refresh(
+        context: Context,
+        repo: Repo,
+        all: List<Repo.Due>,
+        force: Boolean,
+        onProgress: ((done: Int, total: Int) -> Unit)?,
     ): Summary {
         val defaultMinutes = Prefs.syncIntervalMinutes(context)
         val now = System.currentTimeMillis()
-        val all = repo.feedsWithCadence()
         val feeds = if (force) all.map { it.feed } else all.filter { due(it, defaultMinutes, now) }.map { it.feed }
         val skipped = all.size - feeds.size
-        if (feeds.isEmpty()) return Summary(0, 0, 0, 0, skipped)
+        if (feeds.isEmpty()) {
+            // Still tell the widgets: a run that fetched nothing may still have
+            // followed a change to what a stream contains.
+            Safely.run { NewsWidgetProvider.refreshAll(context) }
+            return Summary(0, 0, 0, 0, skipped)
+        }
 
         val pool = Executors.newFixedThreadPool(THREADS)
         var failed = 0

@@ -6,7 +6,7 @@ streams you compose yourself, a 4×4 home-screen widget, and no Google anything.
 ```
 package     com.dispatch.reader
 minSdk 30 · targetSdk 36 · AGP 8.11.1 · Kotlin 2.1.21 · Gradle 8.14.3
-version     1.1.0 (versionCode 3)
+version     1.1.2 (versionCode 5)
 ```
 
 Sixth app in the suite, after TastyWrap, SupplyChain, Tombot, Spoticap and
@@ -52,6 +52,13 @@ than read: new stream, add feed, the library, categories, settings. A back
 arrow appears in the top bar whenever there is somewhere to go back to — out of
 a stream, out of a search — and the system back gesture does exactly what it
 does.
+
+**Refresh is a button, not a gesture.** Pull-to-refresh is gone: an accidental
+overscroll should not fetch a hundred feeds. The refresh button in the bar (and
+the overflow item) refreshes **only the stream on screen**, hides that stream's
+stories while it runs — so nothing can be opened mid-rewrite — and counts the
+feeds as it goes. Settings still has a "refresh everything" button, and the
+background job is unchanged.
 
 **The widget.** A 4×4 tile showing up to ten stories from one stream, with a
 thumbnail, the headline, and — if you turn it on with the gear — a byline that

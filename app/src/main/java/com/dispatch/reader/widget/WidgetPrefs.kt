@@ -17,6 +17,7 @@ object WidgetPrefs {
     private const val FILE = "widget_config"
     private const val KEY_STREAM = "stream_"
     private const val KEY_BYLINE = "byline_"
+    private const val KEY_THEME = "theme_"
 
     /**
      * Whether a widget shows the byline.
@@ -44,6 +45,22 @@ object WidgetPrefs {
         file(context).edit().putBoolean(KEY_BYLINE + widgetId, show).apply()
     }
 
+    /**
+     * Light, dark, or follow the app.
+     *
+     * The fallback is *not* [WidgetTheme.FOLLOW]: a widget that was never
+     * configured (the tile works the moment it is dropped) copies what the app
+     * looks like at the moment it is asked, which is the same thing the
+     * configuration screen preselects.
+     */
+    fun theme(context: Context, widgetId: Int): String =
+        file(context).getString(KEY_THEME + widgetId, null)
+            ?: WidgetTheme.currentAppMode(context)
+
+    fun setTheme(context: Context, widgetId: Int, mode: String) {
+        file(context).edit().putString(KEY_THEME + widgetId, mode).apply()
+    }
+
     fun isConfigured(context: Context, widgetId: Int): Boolean =
         file(context).contains(KEY_STREAM + widgetId)
 
@@ -53,6 +70,7 @@ object WidgetPrefs {
         for (id in widgetIds) {
             editor.remove(KEY_STREAM + id)
             editor.remove(KEY_BYLINE + id)
+            editor.remove(KEY_THEME + id)
         }
         editor.apply()
     }

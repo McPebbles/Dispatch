@@ -7,11 +7,12 @@
   targetCellWidth/Height say the same thing in cells, which is what the launcher
   actually honours now.
 
-  widgetFeatures="reconfigurable|configuration_optional":
+  widgetFeatures="reconfigurable":
     - reconfigurable lets the system reopen the configuration activity;
-    - configuration_optional means a freshly placed widget works immediately
-      (All feeds, no byline) instead of forcing a setup screen on someone who
-      just dragged it onto the home screen. The gear is there when they want it.
+    - configuration_optional is deliberately NOT set: a widget has a stream and
+      an appearance to choose, and a tile that silently lands on "All feeds" in
+      whatever colours leaves the reader to discover the gear before it is
+      theirs. The configuration screen opens as part of placing it.
 
   updatePeriodMillis is 0 on purpose. The platform floor is 30 minutes and it
   wakes the device; this app's refresh is WorkManager's, on the reader's own
@@ -34,4 +35,4 @@
     android:description="@string/widget_description"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:widgetFeatures="reconfigurable|configuration_optional" />
+    android:widgetFeatures="reconfigurable" />

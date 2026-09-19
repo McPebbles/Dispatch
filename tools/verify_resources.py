@@ -25,7 +25,7 @@ ANDROID = "{http://schemas.android.com/apk/res/android}"
 APP_NS = "{http://schemas.android.com/apk/res-auto}"
 
 # ListPreferences whose choices come from the device rather than arrays.xml.
-RUNTIME_POPULATED = {"link_browser"}
+RUNTIME_POPULATED = {"link_browser", "open_stream"}
 
 FAILURES = []
 WARNINGS = []

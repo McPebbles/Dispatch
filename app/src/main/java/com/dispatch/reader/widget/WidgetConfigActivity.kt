@@ -42,11 +42,13 @@ class WidgetConfigActivity : AppCompatActivity() {
 
     private lateinit var frame: Frame
     private lateinit var group: RadioGroup
+    private lateinit var themeGroup: RadioGroup
     private lateinit var bylineSwitch: SwitchCompat
 
     private var widgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private var reconfigure = false
     private var streamId = Stream.ALL_ID
+    private var themeMode = WidgetTheme.FOLLOW
 
     private val app: App get() = application as App
 
@@ -76,13 +78,21 @@ class WidgetConfigActivity : AppCompatActivity() {
         frame.install()
         frame.applyBarColour(ContextCompat.getColor(this, R.color.top_bar))
 
-        findViewById<TextView>(R.id.screenTitle).setText(R.string.widget_config_title)
+        findViewById<TextView>(R.id.screenTitle).setText(
+            if (reconfigure) R.string.widget_config_title else R.string.widget_setup_title
+        )
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         group = findViewById(R.id.streamGroup)
+        themeGroup = findViewById(R.id.themeGroup)
         bylineSwitch = findViewById(R.id.bylineSwitch)
         bylineSwitch.isChecked = WidgetPrefs.byline(this, widgetId)
         streamId = WidgetPrefs.streamId(this, widgetId)
+        // A widget being placed starts on whatever the app looks like right
+        // now — WidgetPrefs.theme falls back to exactly that — rather than on
+        // "follow", which is offered but not assumed.
+        themeMode = WidgetPrefs.theme(this, widgetId)
+        buildThemeChoices()
 
         // The full builder rather than a cut-down dialog: a stream made for a
         // widget is a stream like any other, and a second creation path is how
@@ -92,7 +102,10 @@ class WidgetConfigActivity : AppCompatActivity() {
         findViewById<Button>(R.id.newStreamButton).setOnClickListener {
             startActivity(Intent(this, StreamEditActivity::class.java))
         }
-        findViewById<Button>(R.id.doneButton).setOnClickListener { save() }
+        findViewById<Button>(R.id.doneButton).apply {
+            setText(if (reconfigure) R.string.done else R.string.widget_add)
+            setOnClickListener { save() }
+        }
 
         populate()
     }
@@ -131,6 +144,22 @@ class WidgetConfigActivity : AppCompatActivity() {
         }
     }
 
+    private fun buildThemeChoices() {
+        themeGroup.removeAllViews()
+        for ((index, mode) in WidgetTheme.MODES.withIndex()) {
+            val button = RadioButton(this).apply {
+                text = WidgetTheme.labelFor(this@WidgetConfigActivity, mode)
+                id = THEME_ID_BASE + index
+                isChecked = mode == themeMode
+                setPadding(paddingLeft, dp(12), paddingRight, dp(12))
+                setOnCheckedChangeListener { _: CompoundButton, checked: Boolean ->
+                    if (checked) themeMode = mode
+                }
+            }
+            themeGroup.addView(button)
+        }
+    }
+
     private fun addChoice(id: Long, label: String) {
         val button = RadioButton(this).apply {
             text = label
@@ -156,6 +185,7 @@ class WidgetConfigActivity : AppCompatActivity() {
     private fun save() {
         WidgetPrefs.setStreamId(this, widgetId, streamId)
         WidgetPrefs.setByline(this, widgetId, bylineSwitch.isChecked)
+        WidgetPrefs.setTheme(this, widgetId, themeMode)
         NewsWidgetProvider.refreshOne(this, widgetId)
         setResult(Activity.RESULT_OK, resultIntent())
         finish()
@@ -170,5 +200,8 @@ class WidgetConfigActivity : AppCompatActivity() {
         const val EXTRA_RECONFIGURE = "reconfigure"
         /** Half of the aapt id space: above every generated id, below every R.id. */
         private const val ID_BASE = 1_064_304_640L
+
+        /** Far enough from [ID_BASE] that no stream id can reach it. */
+        private const val THEME_ID_BASE = 1_048_576
     }
 }

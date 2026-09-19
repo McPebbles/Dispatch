@@ -279,4 +279,22 @@
     <string name="action_import">Import OPML…</string>
     <string name="action_categories">Categories…</string>
     <string name="action_export">Export OPML…</string>
+
+    <!-- Refreshing -->
+    <string name="refreshing">Refreshing this stream…</string>
+    <string name="refreshing_count">Refreshing %1$d of %2$d feeds…</string>
+
+    <!-- The widget's appearance -->
+    <string name="widget_theme">Appearance</string>
+    <string name="widget_theme_note">A widget is drawn by the launcher, so it does not pick up the app\'s theme on its own. This is what it follows.</string>
+    <string name="widget_theme_follow">Follow the app</string>
+    <string name="widget_theme_light">Light</string>
+    <string name="widget_theme_dark">Dark</string>
+
+    <!-- The stream shown when the app opens -->
+    <string name="pref_open_stream_title">Open on</string>
+    <string name="pref_open_stream_last">Wherever I left off</string>
+    <string name="pref_open_stream_summary">%1$s</string>
+    <string name="widget_setup_title">Set up widget</string>
+    <string name="widget_add">Add widget</string>
 </resources>

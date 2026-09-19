@@ -33,6 +33,26 @@
     <color name="error_text">#B3261E</color>
     <color name="image_placeholder">#ECEEF1</color>
 
+    <!--
+      The widget's own palette, in two fixed sets.
+
+      Deliberately NOT overridden in values-night: a widget is inflated in the
+      launcher's process against the launcher's configuration, so a night
+      qualifier here would follow the system switch and ignore the app's theme
+      setting. WidgetTheme picks one of these sets and pushes the colours into
+      the RemoteViews explicitly. The widget_* names below are what the layout
+      uses before any of that runs (the preview and the initial layout).
+    -->
+    <color name="widget_light_bg">#FFFFFF</color>
+    <color name="widget_light_title">#14181F</color>
+    <color name="widget_light_meta">#5B6472</color>
+    <color name="widget_light_divider">#E8EAEE</color>
+
+    <color name="widget_dark_bg">#14171C</color>
+    <color name="widget_dark_title">#E7EAEF</color>
+    <color name="widget_dark_meta">#9AA3B0</color>
+    <color name="widget_dark_divider">#262B33</color>
+
     <color name="widget_bg">#FFFFFF</color>
     <color name="widget_title">#14181F</color>
     <color name="widget_meta">#5B6472</color>

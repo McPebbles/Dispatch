@@ -140,7 +140,6 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.10.1")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // The navigation drawer. AndroidX, not Material Components: the panel is a
     // plain LinearLayout with a RecyclerView in it, so nothing here needs
     // com.google.android.material and its theme requirements.

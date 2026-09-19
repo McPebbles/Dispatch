@@ -83,12 +83,13 @@ class NewsWidgetProvider : AppWidgetProvider() {
      */
     private fun refreshFeeds(context: Context, widgetId: Int) {
         val app = context.applicationContext as? App ?: return
-        val manager = AppWidgetManager.getInstance(context)
-        if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-            manager.notifyAppWidgetViewDataChanged(widgetId, R.id.widget_list)
-        }
+        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) return
+        val streamId = WidgetPrefs.streamId(context, widgetId)
         app.io.execute {
-            Safely.run { Sync.refreshAll(app, app.repo) }
+            // Only this widget's stream. A tile showing one stream has no
+            // business fetching the other ninety feeds, and on a phone radio
+            // that difference is minutes.
+            Safely.run { Sync.refreshStream(app, app.repo, streamId, force = true) }
             Safely.run { refreshAll(app) }
         }
     }
@@ -97,13 +98,22 @@ class NewsWidgetProvider : AppWidgetProvider() {
 
         const val ACTION_REFRESH = "com.dispatch.reader.widget.REFRESH"
 
-        /** Tell every widget to re-read the database. */
+        /**
+         * Tell every widget to re-render and re-read the database.
+         *
+         * **Order matters.** `updateAppWidget` replaces the widget's views
+         * wholesale, including the list's adapter binding; doing that *after*
+         * `notifyAppWidgetViewDataChanged` can drop the pending re-read, and
+         * the tile then keeps its old rows until something else happens to it
+         * — which, with `updatePeriodMillis=0`, may be a very long time. Push
+         * the chrome first, then ask for the data.
+         */
         fun refreshAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, NewsWidgetProvider::class.java))
             if (ids.isEmpty()) return
-            manager.notifyAppWidgetViewDataChanged(ids, R.id.widget_list)
             for (id in ids) render(context, manager, id)
+            manager.notifyAppWidgetViewDataChanged(ids, R.id.widget_list)
         }
 
         /** Re-render one widget's chrome, and re-read its rows. */
@@ -116,6 +126,17 @@ class NewsWidgetProvider : AppWidgetProvider() {
         fun render(context: Context, manager: AppWidgetManager, widgetId: Int) {
             val views = RemoteViews(context.packageName, R.layout.widget_news)
             views.setTextViewText(R.id.widget_title, streamName(context, widgetId))
+
+            // Colours are pushed, never looked up: the launcher would resolve a
+            // themed resource against its own configuration and this widget
+            // would ignore both the app's theme setting and this widget's own.
+            // See WidgetTheme.
+            val palette = WidgetTheme.paletteFor(context, WidgetPrefs.theme(context, widgetId))
+            views.setInt(R.id.widget_root, "setBackgroundResource", palette.backgroundRes)
+            views.setTextColor(R.id.widget_title, palette.title)
+            views.setTextColor(R.id.widget_empty, palette.meta)
+            views.setInt(R.id.widget_refresh, "setColorFilter", palette.icon)
+            views.setInt(R.id.widget_settings, "setColorFilter", palette.icon)
 
             val adapterIntent = Intent(context, WidgetService::class.java).apply {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
@@ -151,7 +172,10 @@ class NewsWidgetProvider : AppWidgetProvider() {
                 action = AppWidgetManager.ACTION_APPWIDGET_CONFIGURE
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
                 putExtra(WidgetConfigActivity.EXTRA_RECONFIGURE, true)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                // NEW_TASK alone. CLEAR_TASK here also clears whatever task the
+                // launcher hands this to, which is how a gear tap can end up
+                // looking like nothing happened at all.
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 data = android.net.Uri.parse("dispatch://widget/$widgetId/config")
             }
             return PendingIntent.getActivity(

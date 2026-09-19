@@ -38,6 +38,7 @@ class WidgetService : RemoteViewsService() {
 
         private var rows: List<Article> = emptyList()
         private var showByline = WidgetPrefs.BYLINE_DEFAULT
+        private var palette = WidgetTheme.paletteFor(context, WidgetTheme.FOLLOW)
 
         override fun onCreate() = Unit
 
@@ -51,6 +52,10 @@ class WidgetService : RemoteViewsService() {
         override fun onDataSetChanged() {
             val app = context.applicationContext as? App
             showByline = WidgetPrefs.byline(context, widgetId)
+            // Re-read every time: the reader may have changed this widget's
+            // appearance, or the app's, since the last bind. A row's colours
+            // are pushed rather than looked up for the reason in WidgetTheme.
+            palette = WidgetTheme.paletteFor(context, WidgetPrefs.theme(context, widgetId))
             rows = Safely.call({
                 val repo = app?.repo ?: return@call emptyList()
                 val streamId = WidgetPrefs.streamId(context, widgetId)
@@ -68,6 +73,11 @@ class WidgetService : RemoteViewsService() {
         override fun getViewAt(position: Int): RemoteViews {
             val row = RemoteViews(context.packageName, R.layout.widget_row)
             val article = rows.getOrNull(position) ?: return row
+
+            row.setTextColor(R.id.row_title, palette.title)
+            row.setTextColor(R.id.row_byline, palette.meta)
+            row.setTextColor(R.id.row_meta, palette.meta)
+            row.setInt(R.id.row_divider, "setBackgroundColor", palette.divider)
 
             row.setTextViewText(R.id.row_title, article.title)
 

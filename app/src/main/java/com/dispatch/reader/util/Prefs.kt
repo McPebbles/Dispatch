@@ -23,8 +23,14 @@ import com.dispatch.reader.web.BrowserChoice
  */
 object Prefs {
 
-    /** 1 — first release. */
-    const val SCHEMA_VERSION = 1
+    /**
+     * 1 — first release.
+     * 2 — 1.1.1 added [KEY_OPEN_STREAM]. A new key with a default is a schema
+     *     change, for the reason the class note gives: every default is written
+     *     behind a `contains` check, so without the bump the key would only
+     *     ever be materialised on a fresh install.
+     */
+    const val SCHEMA_VERSION = 2
     private const val KEY_SCHEMA = "schema_version"
 
     const val KEY_LINK_BROWSER = "link_browser"
@@ -36,6 +42,7 @@ object Prefs {
     const val KEY_MARK_READ_ON_OPEN = "mark_read_on_open"
     const val KEY_TEXT_SIZE = "text_size"
     const val KEY_THEME = "theme"
+    const val KEY_OPEN_STREAM = "open_stream"
 
     /** Not settings: remembered state. */
     private const val KEY_LAST_SYNC = "last_sync"
@@ -58,6 +65,9 @@ object Prefs {
 
     const val TEXT_NORMAL = "normal"
 
+    /** [KEY_OPEN_STREAM]'s value for "wherever I left off". */
+    const val OPEN_LAST = "last"
+
     fun of(context: Context): SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
@@ -74,6 +84,7 @@ object Prefs {
             if (!p.contains(KEY_MARK_READ_ON_OPEN)) putBoolean(KEY_MARK_READ_ON_OPEN, true)
             if (!p.contains(KEY_TEXT_SIZE)) putString(KEY_TEXT_SIZE, TEXT_NORMAL)
             if (!p.contains(KEY_THEME)) putString(KEY_THEME, THEME_SYSTEM)
+            if (!p.contains(KEY_OPEN_STREAM)) putString(KEY_OPEN_STREAM, OPEN_LAST)
             putInt(KEY_SCHEMA, SCHEMA_VERSION)
         }.apply()
     }
@@ -113,6 +124,20 @@ object Prefs {
     }
 
     fun selectedStream(context: Context): Long = of(context).getLong(KEY_SELECTED_STREAM, 0L)
+
+    /**
+     * The stream to show when the app is opened cold.
+     *
+     * [OPEN_LAST] — the default — means [selectedStream], which is where the
+     * reader was. Anything else is a stream id, and a stream that has since
+     * been deleted falls back to All feeds rather than to an empty screen with
+     * a name on it.
+     */
+    fun openStream(context: Context): Long {
+        val stored = of(context).getString(KEY_OPEN_STREAM, OPEN_LAST) ?: OPEN_LAST
+        if (stored == OPEN_LAST) return selectedStream(context)
+        return stored.toLongOrNull() ?: selectedStream(context)
+    }
 
     fun setSelectedStream(context: Context, id: Long) {
         of(context).edit().putLong(KEY_SELECTED_STREAM, id).apply()

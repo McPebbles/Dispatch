@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="6dp">
+        android:paddingBottom="2dp">
 
         <TextView
             android:id="@+id/widget_title"
@@ -34,22 +34,33 @@
             android:textSize="13sp"
             android:textStyle="bold" />
 
+        <!--
+          44dp, not 28dp. A widget's buttons are hit through the launcher's
+          own gesture handling, which claims a slop of its own before a tap is
+          delivered, and a 28dp target at the very edge of the tile loses that
+          argument often enough that the gear reads as broken. The icon inside
+          is still 20dp; the rest is padding, which costs nothing visually and
+          is the entire difference between a button that works and one that
+          does not.
+        -->
         <ImageButton
             android:id="@+id/widget_refresh"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/action_refresh"
-            android:padding="5dp"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_refresh_widget" />
 
         <ImageButton
             android:id="@+id/widget_settings"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/widget_config_title"
-            android:padding="5dp"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_gear_widget" />
     </LinearLayout>
 
@@ -58,8 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="@color/widget_divider"
-        android:dividerHeight="1dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:scrollbars="none" />
 
     <TextView

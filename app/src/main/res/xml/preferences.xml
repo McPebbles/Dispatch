@@ -46,6 +46,17 @@
             app:defaultValue="normal"
             app:useSimpleSummaryProvider="true" />
 
+        <!--
+          Which stream the app opens on. The entries are streams, so they come
+          from the database at run time (SettingsFragment.populateStreams) — an
+          arrays.xml list would go stale the moment a stream is renamed.
+        -->
+        <ListPreference
+            app:key="open_stream"
+            app:title="@string/pref_open_stream_title"
+            app:defaultValue="last"
+            app:useSimpleSummaryProvider="true" />
+
         <ListPreference
             app:key="theme"
             app:title="@string/pref_theme_title"
